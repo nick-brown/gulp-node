@@ -1,10 +1,10 @@
-var gulp = require("gulp");
-var browserify = require("browserify");
-var source = require("vinyl-source-stream");
-var sass = require("gulp-ruby-sass");
-var jshint = require("gulp-jshint");
-var stylish = require("jshint-stylish");
-var csslint = require("gulp-csslint");
+var gulp = require("gulp"),
+    browserify = require("browserify"),
+    source = require("vinyl-source-stream"),
+    sass = require("gulp-ruby-sass"),
+    jshint = require("gulp-jshint"),
+    stylish = require("jshint-stylish"),
+    csslint = require("gulp-csslint"),
 
 gulp.task("default", function() {
     console.log("gulp gulp!");
