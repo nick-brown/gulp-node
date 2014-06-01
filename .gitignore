@@ -1,4 +1,6 @@
 node_modules/
+# may need to be modified when images are added
 app/public/static/
+.sass-cache/
 *.swp
 *.swo
