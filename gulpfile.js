@@ -16,7 +16,7 @@ gulp.task("compile:js", ["jshint"], function() {
     var bundle = browserify("./src/js/main.js").bundle();
     return bundle
       .pipe(source("bundle.js"))
-      .pipe(gulp.dest("./app/public/static/js/"));
+      .pipe(gulp.dest("./public/static/js/"));
 });
 
 gulp.task("compile:css", function() {
@@ -24,7 +24,7 @@ gulp.task("compile:css", function() {
       .pipe(sass())
       .pipe(csslint())
       .pipe(csslint.reporter())
-      .pipe(gulp.dest("./app/public/static/css/"));
+      .pipe(gulp.dest("./public/static/css/"));
 });
 
 gulp.task("jshint", function() {
