@@ -1,17 +1,17 @@
-var gulp = require("gulp"),
-    browserify = require("browserify"),
-    source = require("vinyl-source-stream"),
-    sass = require("gulp-ruby-sass"),
-    jshint = require("gulp-jshint"),
-    stylish = require("jshint-stylish"),
-    csslint = require("gulp-csslint"),
-    express = require("express"),
-    app = express(),
-    lr = require('tiny-lr')();
+var gulp = require("gulp")
+,   browserify = require("browserify")
+,   source = require("vinyl-source-stream")
+,   sass = require("gulp-ruby-sass")
+,   jshint = require("gulp-jshint")
+,   stylish = require("jshint-stylish")
+,   csslint = require("gulp-csslint")
+,   express = require("express")
+,   app = express()
+,   lr = require('tiny-lr')()
 
-var EXPRESS_ROOT = __dirname + '/public',
-    EXPRESS_PORT = 8080,
-    LIVERELOAD_PORT = 35729;
+var EXPRESS_ROOT = __dirname + '/public'
+,   EXPRESS_PORT = 8080
+,   LIVERELOAD_PORT = 35729;
 
 var startExpress = function() {
     app.use(require('connect-livereload')());
