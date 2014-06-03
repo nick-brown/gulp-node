@@ -5,11 +5,45 @@ var gulp = require("gulp"),
     jshint = require("gulp-jshint"),
     stylish = require("jshint-stylish"),
     csslint = require("gulp-csslint"),
+    express = require("express"),
+    app = express(),
+    lr = require('tiny-lr')();
+
+var EXPRESS_ROOT = __dirname + '/public',
+    EXPRESS_PORT = 8080,
+    LIVERELOAD_PORT = 35729;
+
+var startExpress = function() {
+    app.use(require('connect-livereload')());
+    app.use(express.static(EXPRESS_ROOT));
+    app.listen(EXPRESS_PORT);
+}
+ 
+var startLivereload = function() {
+    lr.listen(LIVERELOAD_PORT);
+}
+ 
+var notifyLivereload = function(event) {
+ 
+    // gulp.watch() events provide an absolute path
+    // so we need to make it relative to the server root
+    var fileName = require('path').relative(EXPRESS_ROOT, event.path);
+
+    lr.changed({
+        body: {
+            files: [fileName]
+        }
+    });
+}
 
 gulp.task("default", function() {
-    console.log("gulp gulp!");
-});
+    startExpress();
+    startLivereload();
 
+    gulp.watch("./src/js/**/*.js", ["compile:js"]);
+    gulp.watch("./src/scss/**/*.scss", ["compile:css"]);
+    gulp.watch("./public/static/**/*.*", notifyLivereload);
+});
 
 gulp.task("compile:js", ["jshint"], function() {
     // single point of entry for app
@@ -31,9 +65,4 @@ gulp.task("jshint", function() {
     return gulp.src(["./src/js/**/*.js"])
       .pipe(jshint())
       .pipe(jshint.reporter("jshint-stylish"))
-});
-
-gulp.task("watch", ["compile:js", "compile:css"], function() {
-    gulp.watch(["./src/**/*.js"], ["compile:js"]);
-    gulp.watch(["./src/**/*.scss"], ["compile:css"]);
 });
