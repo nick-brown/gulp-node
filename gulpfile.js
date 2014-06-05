@@ -7,15 +7,33 @@ var gulp = require("gulp")
 ,   csslint = require("gulp-csslint")
 ,   express = require("express")
 ,   app = express()
-,   lr = require('tiny-lr')()
+,   lr = require('tiny-lr')();
 
 var EXPRESS_ROOT = __dirname + '/public'
-,   EXPRESS_PORT = 8080
-,   LIVERELOAD_PORT = 35729;
+,   EXPRESS_PORT = process.env.PORT || 8080
+,   LIVERELOAD_PORT = 35729
+,   bodyParser = require('body-parser')
+,   db = require('./config/db');
+
+
+// APP CONFIG
+//==================================================================
+app.use(bodyParser());
+app.use(express.static(__dirname + '/public'));
 
 var startExpress = function() {
+    db.connect();
+    var models = {
+        Todo: require('./app/models/todo')
+    };
+
     app.use(require('connect-livereload')());
     app.use(express.static(EXPRESS_ROOT));
+
+    require('./app/routes')(express.Router(), app, models)
+    app.get('*', function(req, res) {
+        res.sendfile('./public/index.html');
+    });
     app.listen(EXPRESS_PORT);
 }
  
